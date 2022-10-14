@@ -28,7 +28,7 @@ class MealViewCell: UITableViewCell {
         return view
     }()
     
-    lazy private var imgView: UIImageView = {
+    private lazy var imgView: UIImageView = {
         let view = UIImageView(frame: .zero)
         view.image = image
         view.contentMode = .scaleAspectFill

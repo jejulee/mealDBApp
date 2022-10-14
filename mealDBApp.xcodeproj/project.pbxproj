@@ -15,7 +15,12 @@
 		872DC2A928F7372500EDE125 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 872DC2A728F7372500EDE125 /* LaunchScreen.storyboard */; };
 		872DC2B428F7372500EDE125 /* mealDBAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872DC2B328F7372500EDE125 /* mealDBAppTests.swift */; };
 		872DC2CD28F73A5E00EDE125 /* MealViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872DC2CC28F73A5E00EDE125 /* MealViewCell.swift */; };
-		87B8952828F87A7500E1849D /* mealItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B8952728F87A7500E1849D /* mealItemModel.swift */; };
+		8793421428F9161000372F38 /* CategoryViewController+TableExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8793421328F9161000372F38 /* CategoryViewController+TableExtensions.swift */; };
+		8793421D28F92D1B00372F38 /* mealQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8793421C28F92D1B00372F38 /* mealQuery.swift */; };
+		8793422028F9362C00372F38 /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8793421F28F9362C00372F38 /* CategoryListViewModel.swift */; };
+		8793422228F936DB00372F38 /* MealsDBFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8793422128F936DB00372F38 /* MealsDBFetch.swift */; };
+		8793422428F9408E00372F38 /* MealsDBFetchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8793422328F9408E00372F38 /* MealsDBFetchTests.swift */; };
+		87B8952828F87A7500E1849D /* MealItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B8952728F87A7500E1849D /* MealItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,7 +53,12 @@
 		872DC2B328F7372500EDE125 /* mealDBAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mealDBAppTests.swift; sourceTree = "<group>"; };
 		872DC2B928F7372500EDE125 /* mealDBAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mealDBAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		872DC2CC28F73A5E00EDE125 /* MealViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealViewCell.swift; sourceTree = "<group>"; };
-		87B8952728F87A7500E1849D /* mealItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mealItemModel.swift; sourceTree = "<group>"; };
+		8793421328F9161000372F38 /* CategoryViewController+TableExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoryViewController+TableExtensions.swift"; sourceTree = "<group>"; };
+		8793421C28F92D1B00372F38 /* mealQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mealQuery.swift; sourceTree = "<group>"; };
+		8793421F28F9362C00372F38 /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
+		8793422128F936DB00372F38 /* MealsDBFetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsDBFetch.swift; sourceTree = "<group>"; };
+		8793422328F9408E00372F38 /* MealsDBFetchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsDBFetchTests.swift; sourceTree = "<group>"; };
+		87B8952728F87A7500E1849D /* MealItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,11 +108,12 @@
 		872DC29B28F7372400EDE125 /* mealDBApp */ = {
 			isa = PBXGroup;
 			children = (
+				8793421928F9212B00372F38 /* APICalls */,
+				8793421628F918A000372F38 /* View */,
+				8793421E28F935EC00372F38 /* View Model */,
+				8793421528F9187D00372F38 /* Model */,
 				872DC29C28F7372400EDE125 /* AppDelegate.swift */,
 				872DC29E28F7372400EDE125 /* SceneDelegate.swift */,
-				872DC2A028F7372400EDE125 /* CategoryViewController.swift */,
-				872DC2CC28F73A5E00EDE125 /* MealViewCell.swift */,
-				87B8952728F87A7500E1849D /* mealItemModel.swift */,
 				872DC2A228F7372400EDE125 /* Main.storyboard */,
 				872DC2A528F7372500EDE125 /* Assets.xcassets */,
 				872DC2A728F7372500EDE125 /* LaunchScreen.storyboard */,
@@ -115,8 +126,44 @@
 			isa = PBXGroup;
 			children = (
 				872DC2B328F7372500EDE125 /* mealDBAppTests.swift */,
+				8793422328F9408E00372F38 /* MealsDBFetchTests.swift */,
 			);
 			path = mealDBAppTests;
+			sourceTree = "<group>";
+		};
+		8793421528F9187D00372F38 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				87B8952728F87A7500E1849D /* MealItem.swift */,
+				8793421C28F92D1B00372F38 /* mealQuery.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8793421628F918A000372F38 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				872DC2A028F7372400EDE125 /* CategoryViewController.swift */,
+				8793421328F9161000372F38 /* CategoryViewController+TableExtensions.swift */,
+				872DC2CC28F73A5E00EDE125 /* MealViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8793421928F9212B00372F38 /* APICalls */ = {
+			isa = PBXGroup;
+			children = (
+				8793422128F936DB00372F38 /* MealsDBFetch.swift */,
+			);
+			path = APICalls;
+			sourceTree = "<group>";
+		};
+		8793421E28F935EC00372F38 /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				8793421F28F9362C00372F38 /* CategoryListViewModel.swift */,
+			);
+			path = "View Model";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,8 +298,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				872DC2A128F7372400EDE125 /* CategoryViewController.swift in Sources */,
+				8793422228F936DB00372F38 /* MealsDBFetch.swift in Sources */,
 				872DC29D28F7372400EDE125 /* AppDelegate.swift in Sources */,
-				87B8952828F87A7500E1849D /* mealItemModel.swift in Sources */,
+				87B8952828F87A7500E1849D /* MealItem.swift in Sources */,
+				8793421428F9161000372F38 /* CategoryViewController+TableExtensions.swift in Sources */,
+				8793422028F9362C00372F38 /* CategoryListViewModel.swift in Sources */,
+				8793421D28F92D1B00372F38 /* mealQuery.swift in Sources */,
 				872DC2CD28F73A5E00EDE125 /* MealViewCell.swift in Sources */,
 				872DC29F28F7372400EDE125 /* SceneDelegate.swift in Sources */,
 			);
@@ -263,6 +314,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				872DC2B428F7372500EDE125 /* mealDBAppTests.swift in Sources */,
+				8793422428F9408E00372F38 /* MealsDBFetchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
