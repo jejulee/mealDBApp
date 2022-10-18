@@ -9,14 +9,17 @@ import UIKit
 
 class CategoryViewController: UIViewController {
     var categoryName: String?
+    
     var categoryListVM: CategoryListViewModel?
     
+    // Table to show all meals
     let mealsView: UITableView = {
         let table = UITableView(frame: .zero)
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
     
+    // This will show Category Name
     private lazy var headerView: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 60))
         
@@ -31,13 +34,14 @@ class CategoryViewController: UIViewController {
         return view
     }()
     
+    // Array of images that have been downloaded, with its mealName as key
     lazy var mealUIImages = [String:UIImage]()
-    let loadView: UIActivityIndicatorView = UIActivityIndicatorView()
+    
+    private lazy var loadView: UIActivityIndicatorView = UIActivityIndicatorView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
         
         view.addSubview(mealsView)
         setupVM()
@@ -46,22 +50,14 @@ class CategoryViewController: UIViewController {
         startLoad()
     }
     
-    private func startLoad() {
-        self.view.addSubview(loadView)
-        loadView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            loadView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            loadView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
-        ])
-        loadView.startAnimating()
-    }
-    
+    // Setup ViewModel and inject dependencies
     private func setupVM() {
         categoryListVM = CategoryListViewModel(categoryName: categoryName ?? "Dessert")
         categoryListVM?.categoryListDelegate = self
         categoryName = categoryListVM?.category
     }
 
+    // Setup Table for our meals
     private func setupTableView() {
         mealsView.tableHeaderView = headerView
         
@@ -79,9 +75,22 @@ class CategoryViewController: UIViewController {
         mealsView.dataSource = self
         mealsView.delegate = self
     }
+    
+    // Begin Loading Icon while we fetch data
+    private func startLoad() {
+        self.view.addSubview(loadView)
+        loadView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            loadView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            loadView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+        ])
+        loadView.startAnimating()
+    }
 }
 
 extension CategoryViewController: CategoryListViewModelDelegate {
+    
+    // Called once data is fetched
     func reloadMeals() {
         DispatchQueue.main.async {
             self.loadView.stopAnimating()

@@ -17,6 +17,7 @@ class MealDetailsViewController: UIViewController {
     lazy var ingrTitle = createTitle("Ingredients")
     lazy var instrTitle = createTitle("Instructions")
     
+    // Meal Name View
     lazy var nameTitle: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 60))
         let label = UILabel()
@@ -95,6 +96,7 @@ class MealDetailsViewController: UIViewController {
             nameTitle.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
         
+        // Only add Image if it exists
         if let imageView = imageView{
             self.scrollView.addSubview(imageView)
             self.scrollView.sendSubviewToBack(imageView)
@@ -146,6 +148,7 @@ class MealDetailsViewController: UIViewController {
         ])
     }
     
+    // Return a titleView
     func createTitle(_ text: String) -> UIView {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 60))
         let label = UILabel()
@@ -160,6 +163,8 @@ class MealDetailsViewController: UIViewController {
 }
 
 extension MealDetailsViewController: MealDetailsDelegate {
+    
+    // Called when we receive the mealDetails
     func loadDetails(_ mealDetail: MealDetail) {
         DispatchQueue.main.async {
             self.mealInstr.load(mealDetail.instructions)

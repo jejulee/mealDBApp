@@ -32,8 +32,11 @@ class IngredientsAndMeasuresView: UIView {
         guard let ingr = ingr else { loadingText.text = "Failed to fetch ingredients"; return}
         loadingText.isHidden = true
         
+        // Format each pair of strings, ingredient and measurement
         var prev: UILabel?
         for (i,m) in ingr {
+            
+            // Filter out tuples that do not have an ingredients value
             guard let i = i else {continue}
             let label = buildItem(i,m)
             container.addSubview(label)
@@ -56,6 +59,7 @@ class IngredientsAndMeasuresView: UIView {
         self.bottomAnchor.constraint(equalTo: container.bottomAnchor).isActive = true
     }
     
+    // Return UILabel for each pair of items
     func buildItem(_ ing: String, _ meas: String?) -> UILabel {
         let label = UILabel()
         label.text = ing + ", " + (meas ?? "")

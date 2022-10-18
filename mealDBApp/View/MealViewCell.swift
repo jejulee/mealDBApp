@@ -20,6 +20,7 @@ class MealViewCell: UITableViewCell {
         }
     }
     
+    // Holds our image and name
     private var container: UIView = {
         let view = UIView(frame: .zero)
         view.backgroundColor = .black
@@ -46,22 +47,28 @@ class MealViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = self.name
         label.numberOfLines = 2
-        //label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.addSubview(container)
-        self.container.addSubview(nameView)
         
+        self.setupContainer()
+        self.setupNameView()
+    }
+    
+    private func setupContainer() {
+        self.addSubview(container)
         NSLayoutConstraint.activate([
             container.topAnchor.constraint(equalTo: self.topAnchor),
             container.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             container.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             container.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -1)
         ])
-        
+    }
+    
+    private func setupNameView() {
+        self.container.addSubview(nameView)
         
         NSLayoutConstraint.activate([
             nameView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
@@ -69,6 +76,7 @@ class MealViewCell: UITableViewCell {
             nameView.trailingAnchor.constraint(lessThanOrEqualTo: self.container.trailingAnchor, constant: -10)
         ])
     }
+    
     
     private func addImageView() {
         imgView.image = image

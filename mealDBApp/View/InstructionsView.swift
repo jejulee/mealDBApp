@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class InstructionsView: UIView{
-    let loadingText: UILabel = {
+    lazy var loadingText: UILabel = {
         let label = UILabel()
         label.text = "Loading Instructions..."
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -17,11 +17,12 @@ class InstructionsView: UIView{
         return label
     }()
     
-    private let container = UIView()
+    private lazy var container = UIView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(loadingText)
+        
         container.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(container)
         NSLayoutConstraint.activate([
@@ -33,9 +34,11 @@ class InstructionsView: UIView{
     
     func load(_ instr: [String]?) {
         guard let instr = instr else { loadingText.text = "Failed to fetch instructions"; return}
+        // Remove loading text
         loadingText.isHidden = true
         var num = 1
         
+        // Format each string
         var prev: UILabel?
         for step in instr {
             let s = String(num) + ". " + step + "\n"
@@ -62,6 +65,7 @@ class InstructionsView: UIView{
         self.bottomAnchor.constraint(equalTo: container.bottomAnchor).isActive = true
     }
     
+    // Return a UILabel with the given string
     func buildStep(_ text: String) -> UILabel {
         let label = UILabel()
         
