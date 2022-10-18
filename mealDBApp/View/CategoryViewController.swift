@@ -9,8 +9,9 @@ import UIKit
 
 class CategoryViewController: UIViewController {
     var categoryName: String?
+    var categoryListVM: CategoryListViewModel?
     
-    private let mealsView: UITableView = {
+    let mealsView: UITableView = {
         let table = UITableView(frame: .zero)
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
@@ -31,16 +32,34 @@ class CategoryViewController: UIViewController {
     }()
     
     lazy var mealUIImages = [String:UIImage]()
-    
-    var categoryListVM: CategoryListViewModel? = CategoryListViewModel()
+    let loadView: UIActivityIndicatorView = UIActivityIndicatorView()
 
     override func viewDidLoad() {
-        categoryListVM?.delegate = self
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        
         view.addSubview(mealsView)
+        setupVM()
         setupTableView()
+        
+        startLoad()
+    }
+    
+    private func startLoad() {
+        self.view.addSubview(loadView)
+        loadView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            loadView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            loadView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+        ])
+        loadView.startAnimating()
+    }
+    
+    private func setupVM() {
+        categoryListVM = CategoryListViewModel(categoryName: categoryName ?? "Dessert")
+        categoryListVM?.categoryListDelegate = self
+        categoryName = categoryListVM?.category
     }
 
     private func setupTableView() {
@@ -63,8 +82,9 @@ class CategoryViewController: UIViewController {
 }
 
 extension CategoryViewController: CategoryListViewModelDelegate {
-    func loadMeals() {
+    func reloadMeals() {
         DispatchQueue.main.async {
+            self.loadView.stopAnimating()
             self.mealsView.reloadData()
         }
     }

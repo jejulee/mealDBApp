@@ -17,37 +17,48 @@ extension CategoryViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MealViewCell", for: indexPath) as! MealViewCell
         guard let meal = categoryListVM?.getMeal(indexPath.row) else {return cell}
         cell.name = meal.name!
-        if let imgUrlExists = meal.image {
-            loadImage(cell, imgUrlExists, mealID: meal.id!)
+        
+        guard let url = meal.image else {return cell}
+        if !mealUIImages.keys.contains(meal.name ?? "") {
+            let data = categoryListVM?.fetchImageData(indexPath.row, url){data in
+                DispatchQueue.main.async() {[weak self] in
+                    self?.mealUIImages[meal.name!] = UIImage(data: data)
+                    self?.mealsView.reloadRows(at: [indexPath], with: .fade)
+                }
+            }
         }
         
         return cell
     }
-    
-    // TODO: this is only temporary
-    private func loadImage(_ cell: MealViewCell, _ url: URL, mealID: String) {
-        if !mealUIImages.keys.contains(mealID) {
-            DispatchQueue.global().async {
-                if let data = try? Data(contentsOf: url) {
-                    DispatchQueue.main.async {
-                        self.mealUIImages[mealID] = UIImage(data: data)
-                        cell.image = self.mealUIImages[mealID]
-                    }
-                }
-            }
-        } else {
-            cell.image = mealUIImages[mealID]
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let cell = cell as! MealViewCell
+        if mealUIImages.keys.contains(cell.name ?? "") {
+            cell.image = self.mealUIImages[cell.name!]
         }
         
+        func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+            let cell = cell as! MealViewCell
+            cell.image = nil
+        }
     }
-
 }
 
 extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         // when selected
-        print(categoryListVM?.getMeal(indexPath.row))
+        guard let meal = categoryListVM?.getMeal(indexPath.row) else {return}
+        let window = MealDetailsViewController()
+        window.name = meal.name
+        if let mealName = meal.name {
+            if mealUIImages.keys.contains(mealName) {
+                window.image = mealUIImages[mealName]
+            }
+        }
+        categoryListVM?.mealDetailDelegate = window
+        categoryListVM?.loadMealDetails(indexPath.row)
+        self.present(window, animated: true)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

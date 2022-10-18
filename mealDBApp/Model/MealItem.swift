@@ -15,6 +15,9 @@ struct MealItem: Decodable {
     let name: String?
     let id: String?
     let image: URL?
+    
+    var mealDetail: MealDetail? = nil
+    
 }
 
 struct MealList<T: Decodable>: Decodable {

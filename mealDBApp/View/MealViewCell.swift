@@ -25,6 +25,8 @@ class MealViewCell: UITableViewCell {
         view.backgroundColor = .black
         view.translatesAutoresizingMaskIntoConstraints = false
         view.clipsToBounds = true
+        view.layer.cornerRadius = 10
+        view.layer.masksToBounds = true
         return view
     }()
     
@@ -43,6 +45,8 @@ class MealViewCell: UITableViewCell {
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = self.name
+        label.numberOfLines = 2
+        //label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -60,12 +64,14 @@ class MealViewCell: UITableViewCell {
         
         
         NSLayoutConstraint.activate([
-            nameView.leadingAnchor.constraint(greaterThanOrEqualTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            nameView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            nameView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            nameView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            nameView.trailingAnchor.constraint(lessThanOrEqualTo: self.container.trailingAnchor, constant: -10)
         ])
     }
     
     private func addImageView() {
+        imgView.image = image
         imgView.alpha = 0.0
         UIView.animate(withDuration: 0.5) {
             self.imgView.alpha = 0.5
@@ -80,8 +86,9 @@ class MealViewCell: UITableViewCell {
         ])
     }
     
+    
     private func addNameView() {
-        nameView.text = name
+        nameView.text = name?.lowercased()
     }
     
     required init?(coder: NSCoder) {

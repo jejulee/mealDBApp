@@ -8,7 +8,7 @@
 import Foundation
 
 enum FilterType{
-    case category(mealCategory: String)
+    case category(_ mealCategory: String)
     // can add other filter types: area, main ingredient, multi-ingred
 }
 

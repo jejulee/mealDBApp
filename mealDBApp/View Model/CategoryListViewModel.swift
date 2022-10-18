@@ -6,22 +6,37 @@
 //
 
 import Foundation
+import UIKit
 protocol CategoryListViewModelDelegate {
-    func loadMeals()
+    func reloadMeals()
+}
+
+protocol MealDetailsDelegate {
+    func loadDetails(_ mealDetail: MealDetail)
 }
 
 class CategoryListViewModel {
     private var meals = [MealItem]()
     
-    var delegate: CategoryListViewModelDelegate?
+    var categoryListDelegate: CategoryListViewModelDelegate?
+    var mealDetailDelegate: MealDetailsDelegate?
+    
+    var category: String
     
     private let mealsClient: MealsDBFetch
     
-    init() {
+    private var currTasks: [Int] = []
+    
+    init(categoryName: String) {
+        self.category = categoryName
         mealsClient = MealsDBFetch()
-        mealsClient.loadData(get: .filterBy(.category(mealCategory: "Dessert"))){ [weak self] manyMeals in
+        loadMealsDB()
+    }
+    
+    private func loadMealsDB() {
+        mealsClient.loadMealsData(from: .filterBy(.category(category))){ [weak self] manyMeals in
             self?.meals = manyMeals
-            self?.delegate?.loadMeals()
+            self?.categoryListDelegate?.reloadMeals()
         }
     }
     
@@ -31,6 +46,33 @@ class CategoryListViewModel {
 
     func getMeal(_ atIndex: Int) -> MealItem {
         return meals[atIndex]
+    }
+    
+    func loadMealDetails(_ atIndex: Int){
+        let meal = meals[atIndex]
+        if let mealDetail = meal.mealDetail{
+            self.mealDetailDelegate?.loadDetails(mealDetail)
+        } else {
+            guard let id = meal.id else {return}
+            
+            mealsClient.loadMealDetail(from: .lookupByID(id: id), completion: {[weak self] mealDetail in
+                self?.meals[atIndex].mealDetail = mealDetail
+                self?.mealDetailDelegate?.loadDetails(mealDetail)
+            })
+        }
+    }
+    
+    func fetchImageData(_ index: Int, _ url: URL, completion: @escaping (_ data: Data) -> Void) {
+        
+        if !currTasks.contains(index) {
+            currTasks.append(index)
+            let task = URLSession.shared.dataTask(with: url) {[weak self] data, response, error in
+                guard let data = data, error == nil else { return }
+                
+                completion(data)
+            }
+            task.resume()
+        }
     }
     
 }
